@@ -57,7 +57,10 @@ while True:
     elif next_checkpoint_angle > 30 or next_checkpoint_angle < -30:
         thrust = int(100 - ((math.fabs(next_checkpoint_angle) - 30) * 100 // 60))
     else:
-        thrust = 100
+        if next_checkpoint_dist < 2000:
+            thrust = (next_checkpoint_dist - 600) // 14
+        else:
+            thrust = 100
 
     if not record_lap and \
             not boost_used and \
