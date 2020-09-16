@@ -6,6 +6,8 @@ import math
 
 thrust = 100
 boost_used = False
+checkpoints = []
+record_lap = True
 
 # game loop
 while True:
@@ -15,7 +17,14 @@ while True:
     # next_checkpoint_angle: angle between your pod orientation and the direction of the next checkpoint
     x, y, next_checkpoint_x, next_checkpoint_y, next_checkpoint_dist, next_checkpoint_angle = [int(i) for i in input().split()]
     opponent_x, opponent_y = [int(i) for i in input().split()]
-
+    if record_lap:
+        if len(checkpoints) == 0:
+            checkpoints.append({"x": next_checkpoint_x, "y": next_checkpoint_y})
+        elif checkpoints[len(checkpoints) - 1]["x"] != next_checkpoint_x or checkpoints[len(checkpoints) - 1]["y"] != next_checkpoint_y:
+            if next_checkpoint_x == checkpoints[0]["x"] and next_checkpoint_y == checkpoints[0]["y"]:
+                record_lap = False
+            else:
+                checkpoints.append({"x": next_checkpoint_x, "y": next_checkpoint_y})
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
     if next_checkpoint_angle > 90 or next_checkpoint_angle < -90:
@@ -29,6 +38,9 @@ while True:
         else:
             thrust = 100
 
+    print("record_lap: " + str(record_lap), file=sys.stderr, flush=True)
+    for checkpoint in checkpoints:
+        print(checkpoint, file=sys.stderr, flush=True)
     # You have to output the target position
     # followed by the power (0 <= thrust <= 100) or "BOOST"
     # i.e.: "x y thrust"
