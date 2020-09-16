@@ -5,6 +5,7 @@ import math
 # the standard input according to the problem statement.
 
 thrust = 100
+boost_used = False
 
 # game loop
 while True:
@@ -17,13 +18,18 @@ while True:
 
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
-
-    if next_checkpoint_angle > 30 or next_checkpoint_angle < -30:
+    if next_checkpoint_angle > 90 or next_checkpoint_angle < -90:
         thrust = 0
+    elif next_checkpoint_angle > 30 or next_checkpoint_angle < -30:
+        thrust = int(100 - ((math.fabs(next_checkpoint_angle) - 30) * 100 // 60))
     else:
-        thrust = 100
+        if next_checkpoint_dist > 5000 and not boost_used and next_checkpoint_angle < 10 and next_checkpoint_angle > -10:
+            thrust = "BOOST"
+            boost_used = True
+        else:
+            thrust = 100
 
     # You have to output the target position
     # followed by the power (0 <= thrust <= 100) or "BOOST"
     # i.e.: "x y thrust"
-    print(str(next_checkpoint_x) + " " + str(next_checkpoint_y) + " " + str(thrust))
+    print(f"{next_checkpoint_x} {next_checkpoint_y} {thrust}")
