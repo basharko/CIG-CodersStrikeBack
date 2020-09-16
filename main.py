@@ -4,6 +4,7 @@ import math
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
 
+thrust = 100
 
 # game loop
 while True:
@@ -17,8 +18,12 @@ while True:
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
+    if next_checkpoint_angle > 30 or next_checkpoint_angle < -30:
+        thrust = 0
+    else:
+        thrust = 100
 
     # You have to output the target position
     # followed by the power (0 <= thrust <= 100) or "BOOST"
     # i.e.: "x y thrust"
-    print(str(next_checkpoint_x) + " " + str(next_checkpoint_y) + " 80")
+    print(str(next_checkpoint_x) + " " + str(next_checkpoint_y) + " " + str(thrust))
